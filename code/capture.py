@@ -3,17 +3,22 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
+dir_path = "C:/Users/MIS1/Desktop/squat/"
+video = ("C:/Users/MIS1/Desktop/yangssame.mp4")
+
+video_split = video.split('/')[-1:]
+name = video_split[0].split('.')[0]
+cap = cv2.VideoCapture(video)
+
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
-cap = cv2.VideoCapture("C:/Users/MIS1/Desktop/yangssame.mp4")
-dir_path = "C:/Users/MIS1/Desktop/squat/"
-
 height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
 width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
 fps = cap.get(cv2.CAP_PROP_FPS)
 cnt = 0
 counter = 0
 stage = None
+
 
 def calculate_angle(a,b,c):
     a = np.array(a) # First
@@ -53,16 +58,17 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
             landmarks = results.pose_landmarks.landmark
             k = cv2.waitKey(1)
             if k == 117:
-                img_captured = cv2.imwrite(dir_path+'1/'+'squat_%d.jpg'%cnt, image)
+                img_captured = cv2.imwrite(dir_path+'up/'+name+'_%d.jpg'%cnt, image)
+                cnt+=1
             if k == 100:
-                img_captured = cv2.imwrite(dir_path+'2/'+'squat_%d.jpg'%cnt, image)
-            cnt+=1
+                img_captured = cv2.imwrite(dir_path+'down/'+name+'_%d.jpg'%cnt, image)
+                cnt+=1
 
         except Exception as e:
             pass
         
     
-        cv2.imshow('Mediapipe Feed', image)
+        cv2.imshow('Capture image', image)
 
         if cv2.waitKey(10) & 0xFF == ord('q'):
             break
