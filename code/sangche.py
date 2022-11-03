@@ -27,6 +27,7 @@ def shoulder ():
     # Curl counter variables
     counter = 0 
     stage = None
+
     ## Setup mediapipe instance
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
         while cap.isOpened():
@@ -73,8 +74,8 @@ def shoulder ():
                                 )
                 # Curl counter Logic -> angle이 160도 이상이면 이완(down) -> 다운상태일때 30도 미만이면 up
                 if l_angle > r_angle+5 or r_angle > l_angle+10:
-                    cv2.putText(image, '!!!!!! No Balance !!!!!!',(150,50),
-                        cv2.FONT_HERSHEY_DUPLEX, 1.5, (0,0,255), 2, cv2.LINE_AA)
+                    cv2.putText(image, '!!!!! No Balance !!!!!',(115,50),
+                        cv2.FONT_HERSHEY_DUPLEX, 1.2, (0,0,255), 2, cv2.LINE_AA)
                     
                 if l_angle < 90 and r_angle < 90:
                     stage = "down"
@@ -84,34 +85,39 @@ def shoulder ():
                     print(counter)
                 if l_angle< 40 or r_angle < 40:
                     cv2.putText(image, 'warning',(250,150),
-                        cv2.FONT_HERSHEY_DUPLEX, 1.2, (0,212,255), 2, cv2.LINE_AA)                                                      
+                        cv2.FONT_HERSHEY_DUPLEX, 1.2, (0,212,255), 2, cv2.LINE_AA)
+                    
+            
+
+                        
             except:
                 pass
-            cv2.line(image, tuple(np.multiply(rshoulder, [640, 480]).astype(int)), tuple(np.multiply(lshoulder, [640, 480]).astype(int)), (0,255,255), 10, cv2.LINE_AA)
+            cv2.line(image, tuple(np.multiply(rshoulder, [640, 480]).astype(int)), tuple(np.multiply(lshoulder, [640, 480]).astype(int)), (255,0,0), 10, cv2.LINE_AA)
         
             # Render curl counter
             # Setup status box
-            cv2.rectangle(image, (0,0), (225,73), (245,117,16), -1)
+            cv2.rectangle(image, (0,0), (100,75), (255,204,153), -1)
+            cv2.rectangle(image, (520,0), (640,75), (255,204,153), -1)
             
             # Rep data
-            cv2.putText(image, 'REPS', (15,12), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
+            cv2.putText(image, 'REPS', (15,20), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,0), 1, cv2.LINE_AA)
             cv2.putText(image, str(counter), 
-                        (10,60), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
+                        (25,60), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255,255,255), 2, cv2.LINE_AA)
             
             # Stage data
-            cv2.putText(image, 'STAGE', (65,12), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
+            cv2.putText(image, 'STAGE', (550,20), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,0), 1, cv2.LINE_AA)
             cv2.putText(image, stage, 
-                        (60,60), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
+                        (530,60), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 1.2, (255,255,255), 2, cv2.LINE_AA)
             
             
             # Render detections
             mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
-                                    mp_drawing.DrawingSpec(color=(245,117,66), thickness=2, circle_radius=2), 
-                                    mp_drawing.DrawingSpec(color=(245,66,230), thickness=2, circle_radius=2) 
+                                    mp_drawing.DrawingSpec(color=(255,255,255), thickness=2, circle_radius=2), 
+                                    mp_drawing.DrawingSpec(color=(255,204,153), thickness=2, circle_radius=2) 
                                     )               
             
             cv2.imshow('Mediapipe Feed', image)
@@ -123,7 +129,6 @@ def shoulder ():
 
         cap.release()
         cv2.destroyAllWindows()
-
 
 def arm():
     max = int(input('갯수를 입력하세요 : '))
@@ -239,3 +244,5 @@ def arm():
                 break
         cap.release()
         cv2.destroyAllWindows()
+
+shoulder()
