@@ -71,7 +71,7 @@ with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as 
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2, cv2.LINE_AA
                             )
             # Curl counter Logic -> angle이 160도 이상이면 이완(down) -> 다운상태일때 30도 미만이면 up
-            if l_angle > r_angle+5 or r_angle > l_angle+10:
+            if l_angle > r_angle+10 or r_angle > l_angle+10:
                 cv2.putText(image, '!!!!!! No Balance !!!!!!',(150,50),
                     cv2.FONT_HERSHEY_DUPLEX, 1.5, (0,0,255), 2, cv2.LINE_AA)
                 
