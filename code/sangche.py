@@ -244,5 +244,3 @@ def arm():
                 break
         cap.release()
         cv2.destroyAllWindows()
-
-shoulder()

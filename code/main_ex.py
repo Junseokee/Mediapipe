@@ -5,6 +5,8 @@ while True:
     if exercise == 'x':
         break
     import sangche
+    import squat_noarm
+    
     
     if exercise == '어깨':
         sangche.shoulder()
@@ -13,3 +15,6 @@ while True:
     elif exercise == '팔':
         sangche.arm()
         print('팔 운동 시작')
+
+    elif exercise == '다리':
+        squat_noarm.squat
